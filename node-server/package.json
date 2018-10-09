@@ -1,0 +1,15 @@
+{
+  "name": "node-server",
+  "version": "1.0.0",
+  "description": "a node-server based mongo",
+  "main": "app.js",
+  "author": "danwang",
+  "license": "ISC",
+  "scripts": {
+    "dev": "node-dev app.js"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongoose": "^5.3.2"
+  }
+}
