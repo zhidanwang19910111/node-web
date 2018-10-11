@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <div class="rightBox" id="registerBox" v-show="registerOrLogin">
+    <div class="rightBox" id="registerBox" v-show="!registerOrLogin">
       <div class="title"><span>注册</span></div>
       <div class="line"><span class="colDark">用户名：</span><input v-model="username" name="username" type="text"></div>
       <div class="line"><span class="colDark">密码：</span><input  v-model="password" name="password" type="password"></div>
@@ -10,7 +10,7 @@
       <p class="colWarning textCenter">{{registerMsg}}</p>
     </div>
 
-    <div class="rightBox" id="loginBox" v-show="!registerOrLogin">
+    <div class="rightBox" id="loginBox" v-show="registerOrLogin">
       <div class="title"><span>登录</span></div>
       <div class="line"><span class="colDark">用户名：</span><input v-model="loginUsername" name="username" type="text"><em></em></div>
       <div class="line"><span class="colDark">密码：</span><input v-model="loginPassword" name="password" type="password"><em></em></div>
@@ -23,6 +23,7 @@
 
 <script>
 import axios from 'axios';
+import utils from '@static/util/util.js'
 export default {
   name: 'index',
   data () {
@@ -36,7 +37,20 @@ export default {
       loginPassword: ''
     }
   },
+  mounted () {
+    this.checkCookie()
+  },
   methods: {
+    checkCookie () {
+      let userInfo = JSON.parse(utils.getCookie('userInfo'))
+      if( JSON.parse(utils.getCookie('userInfo'))){
+        console.log(userInfo.username )
+
+        this.loginUsername = userInfo.username;
+        this.loginPassword = userInfo.password;
+
+      }
+    },
     //注册按钮
     registerClick () {
       if( !this.username || !this.password || !this.repassword){
@@ -81,7 +95,7 @@ export default {
     },
     gotoLogin (type) {
       
-      this.registerOrLogin = type =='login' ? false : true;
+      this.registerOrLogin = type =='login' ? true : false;
     }
   }
 }

@@ -17,6 +17,8 @@ axios.interceptors.response.use(function (res) {
   return Promise.reject(err);
 })
 
+axios.defaults.withCredentials = true;
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
