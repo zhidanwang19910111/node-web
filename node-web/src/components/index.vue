@@ -16,7 +16,7 @@
       <div class="line"><span class="colDark">密码：</span><input v-model="loginPassword" name="password" type="password"><em></em></div>
       <div class="line"><span class="colDark"></span><button @click="loginClick">登 录</button></div>
       <p class="textRight">还没注册？<a href="javascript:;" class="colMint" @click="gotoLogin('register')">马上注册</a>　</p>
-      <p class="colWarning textCenter"></p>
+      <p class="colWarning textCenter">{{loginMsg}}</p>
     </div>
   </div>
 </template>
@@ -34,7 +34,8 @@ export default {
       registerMsg: '请填写注册信息',
       registerOrLogin: true,
       loginUsername: '',
-      loginPassword: ''
+      loginPassword: '',
+      loginMsg: '请填写登录信息'
     }
   },
   mounted () {
@@ -44,7 +45,6 @@ export default {
     checkCookie () {
       let userInfo = JSON.parse(utils.getCookie('userInfo'))
       if( JSON.parse(utils.getCookie('userInfo'))){
-        console.log(userInfo.username )
 
         this.loginUsername = userInfo.username;
         this.loginPassword = userInfo.password;
@@ -72,6 +72,7 @@ export default {
     },
     //登陆按钮
     loginClick () {
+      let that = this;
       if( !this.loginUsername || !this.loginPassword){
         alert('请填写完整登陆信息')
         return;
@@ -83,11 +84,13 @@ export default {
       })
       .then((res)=>{
         if(res.sucess){
-          alert(res.message)
+          this.loginMsg = "登录成功"
 
-          this.$router.push({
-            path: '/list'
-          })
+          setTimeout(()=>{
+            that.$router.push({
+              path: '/list'
+            })
+          }, 1000)
         }
       })
 

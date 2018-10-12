@@ -9,6 +9,7 @@
     "dev": "node-dev app.js"
   },
   "dependencies": {
+    "cookies": "^0.7.2",
     "express": "^4.16.3",
     "mongoose": "^5.3.2"
   }

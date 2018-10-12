@@ -3,10 +3,35 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var app = express();
 
+var Cookies = require('cookies');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use('/api', require('./routers/api'))
+
+//设置跨域访问
+app.all('*', function(req, res, next) {
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
+//设置cookie
+
+// app.use(function(req, res, next){
+//   req.cookies = new Cookies(req, res);
+
+//   req.userInfo = {};
+
+//   if(req.cookies.get('userInfo')){
+//     try {
+//       req.userInfo = JSON.parse(req.cookies.get('userInfo'))
+//     }catch(e){
+
+//     }
+//   }
+//   next();
+// })
 
 
 

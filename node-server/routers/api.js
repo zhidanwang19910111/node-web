@@ -1,6 +1,8 @@
 var express = require('express');
 var app = express();
 
+var Cookies = require('cookies');
+
 var router = express.Router();
 
 // var mongodb = require('mongodb')
@@ -20,15 +22,7 @@ router.use( function(req, res, next) {
 } );
 
 
-//设置跨域访问
-// app.all('*', function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-//     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-//     res.header("X-Powered-By",' 3.2.1')
-//     res.header("Content-Type", "application/json;charset=utf-8");
-//     next();
-// });
+
 
 //注册逻辑
 
@@ -125,6 +119,8 @@ router.post('/user/register', function(req, res, next){
  */
 
 router.post('/user/login', function(req, res, next){
+
+    req.cookies = new Cookies(req, res);
     var reqData = req.body;
     var username = reqData.username;
     var password = reqData.password;
@@ -158,6 +154,13 @@ router.post('/user/login', function(req, res, next){
         responseData.message = '登陆成功';
         responseData.sucess = true;
         responseData.data = [];
+
+        responseData.userInfo = {
+            id: userInfo._id,
+            username: userInfo.username,
+            password: userInfo.password
+        }
+        req.cookies.set('userInfo', JSON.stringify(responseData.userInfo) ,{"httpOnly": false})
         res.json(responseData)
     })
 
@@ -169,6 +172,16 @@ router.post('/user/login', function(req, res, next){
     //     res.json(responseData)
     //     return;
     // }
+ })
+
+ //登录退出逻辑
+
+ router.post('/user/logout', function(req, res, next){
+    var reqData = req.body;
+    
+
+
+
  })
 /**
  * 测试逻辑

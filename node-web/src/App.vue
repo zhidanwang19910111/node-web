@@ -1,13 +1,20 @@
 <template>
   <div id="app">
-
+    <div class="header-wrap">
+      <div class="logout" @click="logoutClick">退出</div>
+    </div>
     <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  methods: {
+    logoutClick () {
+      alert(123)
+    }
+  }
 }
 </script>
 
