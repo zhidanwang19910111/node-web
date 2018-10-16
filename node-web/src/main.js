@@ -5,7 +5,12 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 
+
 Vue.config.productionTip = false
+
+
+import store from './store'
+
 
 
 
@@ -23,6 +28,7 @@ axios.defaults.withCredentials = true;
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

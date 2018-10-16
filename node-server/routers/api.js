@@ -37,6 +37,7 @@ router.use( function(req, res, next) {
  * 
  */
 router.post('/user/register', function(req, res, next){
+    
     var reqData = req.body;
     var username = reqData.username;
     var password = reqData.password;
@@ -119,7 +120,6 @@ router.post('/user/register', function(req, res, next){
  */
 
 router.post('/user/login', function(req, res, next){
-
     req.cookies = new Cookies(req, res);
     var reqData = req.body;
     var username = reqData.username;
@@ -177,9 +177,17 @@ router.post('/user/login', function(req, res, next){
  //登录退出逻辑
 
  router.post('/user/logout', function(req, res, next){
-    var reqData = req.body;
-    
+    // var reqData = req.body;
+    req.cookies = new Cookies(req, res);
 
+    req.cookies.set('userInfo', null ,{"httpOnly": false});
+
+    responseData.code = 200;
+    responseData.message = '退出登录成功';
+    responseData.sucess = true;
+    responseData.data = [];
+    
+    res.json(responseData)
 
 
  })

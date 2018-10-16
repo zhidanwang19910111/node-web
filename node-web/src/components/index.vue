@@ -86,6 +86,8 @@ export default {
         if(res.sucess){
           this.loginMsg = "登录成功"
 
+          this.$store.dispatch('login')
+
           setTimeout(()=>{
             that.$router.push({
               path: '/list'

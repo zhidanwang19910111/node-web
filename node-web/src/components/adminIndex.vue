@@ -1,6 +1,6 @@
 <template>
     <div class="list">
-        i am list page
+        您好，欢迎来到管理员页面
     </div>
 </template>
 

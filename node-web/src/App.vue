@@ -1,18 +1,36 @@
 <template>
   <div id="app">
     <div class="header-wrap">
-      <div class="logout" @click="logoutClick">退出</div>
+      <div class="logout" @click="logoutClick" v-show="isLogin">退出</div>
     </div>
     <router-view/>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
+import Utils from '@static/util/util.js'
+import {mapState} from 'vuex'
 export default {
   name: 'App',
+  computed: {
+    ...mapState({
+      isLogin: state => state.isLogin
+    })
+  },
   methods: {
     logoutClick () {
-      alert(123)
+      axios.post('/api/user/logout')
+      .then( res => {
+        console.log(res)
+        if( res.sucess ){
+          this.$store.dispatch('logout')
+          this.$router.replace({
+            path: '/'
+          })
+        }
+      })
     }
   }
 }
