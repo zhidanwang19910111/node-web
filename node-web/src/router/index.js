@@ -8,6 +8,10 @@ import adminIndex from '@/components/adminIndex'
 import adminUser from '@/components/adminUser'
 
 import catalog from '@/components/catalog'
+import addCatalog from '@/components/addCatalog'
+
+import content from '@/components/content'
+import addContent from '@/components/addContent'
 
 Vue.use(Router)
 
@@ -40,6 +44,18 @@ export default new Router({
         {
           path: 'catalog',
           component: catalog
+        },
+        {
+          path: 'addCatalog',
+          component: addCatalog
+        },
+        {
+          path: 'content',
+          component: content
+        },
+        {
+          path: 'addContent',
+          component: addContent
         }
     ]
     }

@@ -39,7 +39,6 @@ export default {
                 if( res.sucess && res.data && res.data.length){
 
                     this.userList = res.data
-                    console.log(this.userList)
                 }
             })
         }

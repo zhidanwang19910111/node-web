@@ -2,11 +2,11 @@
     <div class="list">
         <div class="list-wrap" v-for="item in userList" :key="item._id">
             <div>
-                <span>用户名字:</span>
-                <span>{{item.name}}</span>
+                <span>分类名字:</span>
+                <span>{{item.title}}</span>
             </div>
             <div>
-                <span>用户id:</span>
+                <span>内容id:</span>
                  <span>{{item._id}}</span>
             </div>
 
@@ -34,7 +34,7 @@ export default {
     },
     methods: {
         initUser () {
-            axios.get('/admin/catalog/list')
+            axios.get('/admin/content/list')
             .then( res => {
                 if( res.sucess && res.data && res.data.length){
 
