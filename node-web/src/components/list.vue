@@ -70,6 +70,9 @@ export default {
         catalogClick ( item ) {
             this.catalogId = item._id;
             this.initContent();
+        },
+        viewClick () {
+            
         }
     }
 }
