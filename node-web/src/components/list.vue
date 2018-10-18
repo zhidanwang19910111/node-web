@@ -6,7 +6,22 @@
         <div class="list-flex">
 
             <div class="list-wrap" v-for="item in listArr" :key="item.name">
-                <div>{{item.name}}</div>
+                <div @click="catalogClick(item)">{{item.name}}</div>
+            </div>
+        </div>
+
+        <div class="list-content">
+            <div style="overflow:hidden;">
+                <div class="list-content-wrap" v-for="(item,index) in contentList" :key="item._id">
+                    <div>{{index+1}}</div>
+                    <div>{{item.title}}</div>
+                    <div>{{item.content}}</div>
+                    <div>{{item.description}}</div>
+                    <div>{{item.views}}</div>
+                    <div>{{item.addTime}}</div>
+                    <div @click="viewClick">点击阅读</div>
+                    
+                </div>
             </div>
         </div>
     </div>
@@ -19,21 +34,42 @@ export default {
     name: 'list',
     data () {
         return {
-            listArr: []
+            listArr: [],
+            catalogId: '',
+            contentList: []
         }
     },
     mounted () {
-        this.initTab();
+        let that = this;
+        this.initTab().then(function(){
+            that.initContent();
+        })
     },
     methods: {
         initTab () {
-            axios.get('/admin/catalog/list')
+            return axios.get('/admin/catalog/list')
             .then( res => {
                 if( res.sucess && res.data && res.data.length){
 
                     this.listArr = res.data
                 }
             })
+        },
+        initContent () {
+            let that = this;
+            axios.get('/admin//content/list',{
+                params: {
+                    catalogId: this.catalogId
+                }
+            })
+            .then(function( res ){
+                console.log(res)
+                that.contentList = res.data
+            })
+        },
+        catalogClick ( item ) {
+            this.catalogId = item._id;
+            this.initContent();
         }
     }
 }
@@ -47,7 +83,7 @@ export default {
 .list-flex{
     display: flex;
     justify-content: space-around;
-    margin-top: 40px;
+    margin: 40px 0;
 
 }
 .list-img{
@@ -57,6 +93,17 @@ export default {
 .list-img img{
     width: 1200px;
     height: 200px;
+}
+.list-content{
+    min-height: 400px;
+    background-color: #ffffff;
+}
+.list-content-wrap{
+    display: flex;
+    justify-content: space-around;
+    margin: 20px;
+    background: #dcdcdc;
+
 }
 </style>
 

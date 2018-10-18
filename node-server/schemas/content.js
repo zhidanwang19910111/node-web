@@ -14,6 +14,18 @@ var contentSchema = new Schema({
         ref: 'Contents'
     },
 
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+    },
+    addTime: {
+        type: Date,
+        default: new Date()
+    },
+    views: {
+      type: Number,
+      default: 0  
+    },
     //简介
     description: {
         type: String,

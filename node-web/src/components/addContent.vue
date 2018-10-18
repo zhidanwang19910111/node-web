@@ -46,39 +46,48 @@ export default {
         }
     },
     mounted () {
-        // if(this.$route.query && this.$route.query.id){
-        //     this.catalogName = this.$route.query.name;
-        //     this.catalogId = this.$route.query.id;
-        // }
         this.initOption();
     },
     methods: {
         initOption () {
+            let params = this.$route.query;
             axios.get('/admin/catalog/list')
             .then( res => {
                 if( res.sucess && res.data && res.data.length){
 
                     this.options = res.data;
-                    this.selectVal = this.options[0].name
+                    if(params && params._id){
+                        console.log(params)
+                        this.selectVal = params.catalog;
+                        
+                        this.addTitle = params.title;
+                        this.description = params.description;
+                        this.addContent = params.content;
+                        return;
+                    }
+                    this.selectVal = this.options[0]._id;
                 }
             })
         },
         submimtContent () {
-
-            // if( this.$route.query && this.$route.query.id ){
-            //     axios.post('/admin/catalog/edit',{
-            //         name: this.catalogName,
-            //         id: this.catalogId
-            //     })
-            //     .then( res => {
-            //         if( res.sucess ){
-            //             this.$router.push('/admins/catalog')
-            //         }else{
-            //             alert(res.message)
-            //         }
-            //     })
-            //     return;
-            // }
+            let params = this.$route.query
+            if( params && params._id ){
+                axios.post('/admin/content/edit',{
+                    id: params._id,
+                    title: this.addTitle,
+                    catalog: this.selectVal,
+                    description: this.description,
+                    content: this.addContent,
+                })
+                .then( res => {
+                    if( res.sucess ){
+                        this.$router.push('/admins/content')
+                    }else{
+                        alert(res.message)
+                    }
+                })
+                return;
+            }
             axios.post('/admin/content/add', {
                 title: this.addTitle,
                 catalog: this.selectVal,

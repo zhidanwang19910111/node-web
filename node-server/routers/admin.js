@@ -135,7 +135,7 @@ router.post('/catalog/edit', function(req, res){
             res.json(responseData);
             return;
         }else{
-            catalogModel.update(
+            catalogModel.findOneAndUpdate(
                 {
                     _id: id
                 },
@@ -216,14 +216,110 @@ router.post('/catalog/delete', function(req, res){
  */
 router.get('/content/list', function(req, res){
 
-    contentModel.find().then(function( data ){
-        responseData.code = 200;
-        responseData.message = '查询成功';
-        responseData.sucess = true;
-        responseData.data = data;
-        res.json(responseData); 
-    })
+    var reqData= req.query;
+    if( !reqData.catalogId ){
+
+        contentModel.find().then(function( data ){
+            responseData.code = 200;
+            responseData.message = '查询成功';
+            responseData.sucess = true;
+            responseData.data = data;
+            res.json(responseData); 
+        })
+    }else{
+        contentModel.find({
+            catalog: reqData.catalogId
+        })
+        .then(function(rs){
+            responseData.code = 200;
+            responseData.message = '查询成功';
+            responseData.sucess = true;
+            responseData.data = rs;
+            res.json(responseData); 
+        })
+    }
+
 })
+
+/***
+ * 内容修改
+ */
+router.post('/content/edit', function(req, res){
+    var reqData = req.body;
+
+    contentModel.findOne({
+        _id: reqData.id
+    })
+    .then(function( nval ){
+        if( nval ){
+            contentModel.findOneAndUpdate(
+                {
+                    _id: reqData.id
+                },
+                {
+                    catalog: reqData.catalog,
+                    title: reqData.title,
+                    description: reqData.description,
+                    content: reqData.content 
+                }
+            )
+            .then(function(){
+
+                responseData.code = 200;
+                responseData.message = '修改成功';
+                responseData.sucess = true
+                res.json(responseData);
+                return;
+            })
+        }else{
+            let content = new contentModel({
+                catalog: reqData.catalog,
+                title: reqData.title,
+                description: reqData.description,
+                content: reqData.content
+            })
+            content .save()
+            responseData.code = 200;
+            responseData.message = '保存成功';
+            responseData.sucess = true;
+            res.json(responseData);
+            return;
+        }
+    })
+
+})
+
+
+/**
+ * 内容删除
+ */
+
+ router.post('/content/delete', function(req, res){
+     var id = req.body.id;
+
+     contentModel.findOne({
+         _id: id
+     })
+     .then(function(newres){
+
+         if( newres ){
+            contentModel.remove({
+                _id: id
+            })
+            .then(function(){
+                responseData.code = 200;
+                responseData.message = '删除成功';
+                responseData.sucess = true;
+                res.json(responseData); 
+            })
+        }else{
+            responseData.code = 200;
+            responseData.message = '删除失败';
+            responseData.sucess = false;
+            res.json(responseData);  
+        }
+     })
+ })
 
 
 

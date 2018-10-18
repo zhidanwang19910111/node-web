@@ -11,8 +11,8 @@
             </div>
 
             <div>
-                <button @click="catalogEdit(item.name, item._id)">修改</button>
-                <button @click="catalogDelete(item._id)">删除</button>
+                <button @click="contentEdit(item)">修改</button>
+                <button @click="contentDelete(item._id)">删除</button>
             </div>
 
         </div>
@@ -42,17 +42,14 @@ export default {
                 }
             })
         },
-        catalogEdit (name, id) {
+        contentEdit (item) {
             this.$router.push({
-                path: '/admins/addCatalog',
-                query: {
-                    id: id,
-                    name: name
-                }
+                path: '/admins/addContent',
+                query: item
             })
         },
-        catalogDelete (id){
-            axios.post('/admin/catalog/delete',{
+        contentDelete (id){
+            axios.post('/admin/content/delete',{
                 id: id
             })
             .then( res => {
